@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace HotelBooking.Data.Application.Dto;
 
-namespace HotelBooking.Data.Application.DTO
-{
-    internal class BookingDto
-    {
-    }
-}
+public sealed record BookingDto(
+    Guid Id,
+    Guid UserId,
+    Guid RoomId,
+    string HotelName,
+    string City,
+    decimal PricePerNight,
+    int Capacity,
+    DateOnly CheckIn,
+    DateOnly CheckOut,
+    DateTime CreatedAtUtc
+);
+
+public sealed record CreateBookingRequest(
+    Guid RoomId,
+    DateOnly CheckIn,
+    DateOnly CheckOut
+);

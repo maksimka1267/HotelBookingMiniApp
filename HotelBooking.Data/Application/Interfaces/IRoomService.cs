@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HotelBooking.Data.Application.Dto;
 
-namespace HotelBooking.Data.Application.Interfaces
+namespace HotelBooking.Data.Application.Interfaces;
+
+public interface IRoomService
 {
-    internal interface IRoomService
-    {
-    }
+    Task<RoomDto?> GetByIdAsync(Guid id, CancellationToken ct);
+
+    Task<Guid> CreateAsync(UpsertRoomDto dto, CancellationToken ct);
+    Task UpdateAsync(Guid id, UpsertRoomDto dto, CancellationToken ct);
+    Task DeleteAsync(Guid id, CancellationToken ct);
+
+    Task<IReadOnlyList<RoomDto>> SearchAvailableAsync(SearchRoomsRequest req, CancellationToken ct);
 }

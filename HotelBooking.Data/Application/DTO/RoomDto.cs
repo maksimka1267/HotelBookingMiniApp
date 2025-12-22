@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace HotelBooking.Data.Application.Dto;
 
-namespace HotelBooking.Data.Application.DTO
-{
-    internal class RoomDto
-    {
-    }
-}
+public sealed record RoomDto(
+    Guid Id,
+    Guid HotelId,
+    string HotelName,
+    string City,
+    decimal PricePerNight,
+    int Capacity
+);
+
+public sealed record UpsertRoomDto(
+    Guid HotelId,
+    decimal PricePerNight,
+    int Capacity
+);

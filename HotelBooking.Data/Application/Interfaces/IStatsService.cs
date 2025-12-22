@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HotelBooking.Data.Application.Dto;
 
-namespace HotelBooking.Data.Application.Interfaces
+namespace HotelBooking.Data.Application.Interfaces;
+
+public interface IStatsService
 {
-    internal interface IStatsService
-    {
-    }
+    Task<AdminStatsDto> GetHotelStatsAsync(DateOnly from, DateOnly to, CancellationToken ct);
 }
