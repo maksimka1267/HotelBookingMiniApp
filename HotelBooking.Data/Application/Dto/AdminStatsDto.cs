@@ -8,7 +8,6 @@ public sealed record AdminHotelStatsRow(
     long TotalNights,
     decimal Revenue
 );
-
 public sealed record AdminStatsDto(
     DateOnly From,
     DateOnly To,

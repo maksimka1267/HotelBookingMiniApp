@@ -1,0 +1,88 @@
+﻿@page
+@model HotelBooking.Web.Pages.Admin.Rooms.IndexModel
+@{
+    ViewData["Title"] = "Адмін · Номери";
+}
+
+<div class="d-flex justify-content-between align-items-end mb-3">
+    <div>
+        <h2 class="page-title mb-1">Номери</h2>
+        <div class="page-subtitle">CRUD для номерів. Можна фільтрувати за готелем.</div>
+    </div>
+    <a class="btn btn-dark" asp-page="/Admin/Rooms/Upsert">+ Додати номер</a>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Error))
+{
+    <div class="alert alert-danger shadow-soft" role="alert">
+        <b>Помилка:</b> @Model.Error
+    </div>
+}
+
+<div class="card shadow-soft p-3 p-md-4 mb-3">
+    <form method="get" class="row g-3 align-items-end">
+        <div class="col-12 col-md-6">
+            <label class="form-label">Готель</label>
+            <select class="form-select" name="hotelId">
+                <option value="">Усі готелі</option>
+                @foreach (var h in Model.Hotels)
+                {
+                    <option value="@h.Id" selected="@(Model.HotelId == h.Id)">
+                        @h.Name (@h.City)
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="col-12 col-md-2 d-grid">
+            <button class="btn btn-outline-dark" type="submit">Застосувати</button>
+        </div>
+    </form>
+</div>
+
+<div class="card shadow-soft p-3">
+    @if (Model.Items.Count == 0)
+    {
+        <div class="text-muted">Номерів не знайдено.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr class="text-muted small">
+                        <th>Готель</th>
+                        <th>Місто</th>
+                        <th>Місць</th>
+                        <th>Ціна/ніч</th>
+                        <th style="width:220px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model.Items)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@r.HotelName</td>
+                            <td>@r.City</td>
+                            <td>@r.Capacity</td>
+                            <td>@r.PricePerNight.ToString("0.##") ₴</td>
+                            <td class="text-end">
+                                <a class="btn btn-outline-dark btn-sm"
+                                   asp-page="/Admin/Rooms/Upsert"
+                                   asp-route-id="@r.Id">Редагувати</a>
+
+                                <form method="post" class="d-inline">
+                                    <input type="hidden" name="handler" value="delete" />
+                                    <input type="hidden" name="Id" value="@r.Id" />
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                            onclick="return confirm('Видалити номер?');">
+                                        Видалити
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

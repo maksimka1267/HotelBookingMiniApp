@@ -1,0 +1,75 @@
+﻿@page
+@model HotelBooking.Web.Pages.Admin.Stats.IndexModel
+@{
+    ViewData["Title"] = "Адмін · Статистика";
+}
+
+<div class="mb-3">
+    <h2 class="page-title mb-1">Статистика</h2>
+    <div class="page-subtitle">Бронювання по готелях за період.</div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Error))
+{
+    <div class="alert alert-danger shadow-soft" role="alert">
+        <b>Помилка:</b> @Model.Error
+    </div>
+}
+
+<div class="card shadow-soft p-3 p-md-4 mb-3">
+    <form method="get" class="row g-3 align-items-end">
+        <div class="col-6 col-md-3">
+            <label class="form-label">З</label>
+            <input class="form-control" type="date" name="from" value="@Model.From.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-6 col-md-3">
+            <label class="form-label">По</label>
+            <input class="form-control" type="date" name="to" value="@Model.To.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-12 col-md-2 d-grid">
+            <button class="btn btn-outline-dark" type="submit">Показати</button>
+        </div>
+    </form>
+</div>
+
+@if (Model.Stats is null)
+{
+    <div class="text-muted">Немає даних. Оберіть період.</div>
+}
+else
+{
+    <div class="card shadow-soft p-3">
+        @if (Model.Stats.ByHotels.Count == 0)
+        {
+            <div class="text-muted">За цей період бронювань немає.</div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr class="text-muted small">
+                            <th>Готель</th>
+                            <th>Місто</th>
+                            <th>Бронювань</th>
+                            <th>Ночей</th>
+                            <th>Дохід</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in Model.Stats.ByHotels)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@r.HotelName</td>
+                                <td>@r.City</td>
+                                <td>@r.BookingsCount</td>
+                                <td>@r.TotalNights</td>
+                                <td>@r.Revenue.ToString("0.##") ₴</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+}

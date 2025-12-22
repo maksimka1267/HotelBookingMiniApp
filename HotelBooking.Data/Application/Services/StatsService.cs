@@ -16,12 +16,12 @@ public class StatsService : IStatsService
 
         const string sql = @"
 SELECT
-    h.Id            AS HotelId,
-    h.Name          AS HotelName,
-    h.City          AS City,
-    COUNT(b.Id)     AS BookingsCount,
-    COALESCE(SUM(DATEDIFF(b.CheckOut, b.CheckIn)), 0) AS TotalNights,
-    COALESCE(SUM(DATEDIFF(b.CheckOut, b.CheckIn) * r.PricePerNight), 0) AS Revenue
+    h.Id AS HotelId,
+    h.Name AS HotelName,
+    h.City AS City,
+    CAST(COUNT(DISTINCT b.Id) AS SIGNED) AS BookingsCount,
+    CAST(COALESCE(SUM(DATEDIFF(b.CheckOut, b.CheckIn)), 0) AS SIGNED) AS TotalNights,
+    CAST(COALESCE(SUM(DATEDIFF(b.CheckOut, b.CheckIn) * r.PricePerNight), 0) AS DECIMAL(18,2)) AS Revenue
 FROM Hotels h
 LEFT JOIN Rooms r ON r.HotelId = h.Id
 LEFT JOIN Bookings b ON b.RoomId = r.Id
@@ -37,8 +37,9 @@ ORDER BY Revenue DESC, BookingsCount DESC;";
                 FromDate = from.ToDateTime(TimeOnly.MinValue),
                 ToDate = to.ToDateTime(TimeOnly.MinValue)
             }, cancellationToken: ct)
-        )).ToList();
+        )).ToList().AsReadOnly();
 
         return new AdminStatsDto(from, to, rows);
+
     }
 }

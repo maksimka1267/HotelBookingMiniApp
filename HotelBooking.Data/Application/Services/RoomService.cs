@@ -54,6 +54,28 @@ public class RoomService : IRoomService
 
         await _db.SaveChangesAsync(ct);
     }
+    public async Task<IReadOnlyList<RoomDto>> GetAllAsync(Guid? hotelId, CancellationToken ct)
+    {
+        var q = _db.Rooms
+            .AsNoTracking()
+            .AsQueryable();
+
+        if (hotelId.HasValue)
+            q = q.Where(r => r.HotelId == hotelId.Value);
+
+        return await q
+            .OrderBy(r => r.Hotel.Name)
+            .ThenBy(r => r.PricePerNight)
+            .Select(r => new RoomDto(
+                r.Id,
+                r.HotelId,
+                r.Hotel.Name,
+                r.Hotel.City,
+                r.PricePerNight,
+                r.Capacity
+            ))
+            .ToListAsync(ct);
+    }
 
     public async Task DeleteAsync(Guid id, CancellationToken ct)
     {

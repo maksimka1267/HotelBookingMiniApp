@@ -11,4 +11,6 @@ public interface IRoomService
     Task DeleteAsync(Guid id, CancellationToken ct);
 
     Task<IReadOnlyList<RoomDto>> SearchAvailableAsync(SearchRoomsRequest req, CancellationToken ct);
+    Task<IReadOnlyList<RoomDto>> GetAllAsync(Guid? hotelId, CancellationToken ct);
+
 }

@@ -1,0 +1,59 @@
+﻿@page
+@model HotelBooking.Web.Pages.Admin.Bookings.IndexModel
+@{
+    ViewData["Title"] = "Адмін · Бронювання";
+}
+
+<div class="mb-3">
+    <h2 class="page-title mb-1">Всі бронювання</h2>
+    <div class="page-subtitle">Список бронювань у системі.</div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Error))
+{
+    <div class="alert alert-danger shadow-soft" role="alert">
+        <b>Помилка:</b> @Model.Error
+    </div>
+}
+
+<div class="card shadow-soft p-3">
+    @if (Model.Items.Count == 0)
+    {
+        <div class="text-muted">Бронювань немає.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr class="text-muted small">
+                        <th>Готель</th>
+                        <th>Місто</th>
+                        <th>Дати</th>
+                        <th>Місць</th>
+                        <th>Ціна</th>
+                        <th>Користувач</th>
+                        <th>Створено</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var b in Model.Items)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@b.HotelName</td>
+                            <td>@b.City</td>
+                            <td><b>@b.CheckIn.ToString("dd.MM.yyyy")</b> → <b>@b.CheckOut.ToString("dd.MM.yyyy")</b></td>
+                            <td>@b.Capacity</td>
+                            <td>@b.PricePerNight.ToString("0.##") ₴/ніч</td>
+                            <td class="text-muted">@b.UserId</td>
+                            <td class="text-muted">@b.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="text-muted small mt-2">
+            * Якщо хочеш показувати Email користувача — додамо окремий AdminBookingDto з UserEmail.
+        </div>
+    }
+</div>

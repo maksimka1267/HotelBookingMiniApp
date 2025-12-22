@@ -1,4 +1,4 @@
-﻿using HotelBooking.Data.Application.Common;
+﻿    using HotelBooking.Data.Application.Common;
 using HotelBooking.Data.Application.Dto;
 using HotelBooking.Data.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;

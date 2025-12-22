@@ -32,7 +32,12 @@ public class RoomsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
+    [HttpGet]
+    public async Task<IActionResult> Get([FromQuery] Guid? hotelId, CancellationToken ct)
+    {
+        var rooms = await _rooms.GetAllAsync(hotelId, ct); // или как у тебя называется
+        return Ok(rooms);
+    }
     [HttpGet("{roomId:guid}")]
     public async Task<IActionResult> GetById(Guid roomId, CancellationToken ct)
     {

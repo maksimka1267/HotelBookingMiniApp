@@ -1,0 +1,61 @@
+﻿@page
+@model HotelBooking.Web.Pages.Bookings.MyModel
+@{
+    ViewData["Title"] = "Мої бронювання";
+}
+
+<div class="mb-3">
+    <h2 class="page-title mb-1">Мої бронювання</h2>
+    <div class="page-subtitle">Список усіх ваших бронювань.</div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Error))
+{
+    <div class="alert alert-danger shadow-soft" role="alert">
+        <b>Помилка:</b> @Model.Error
+    </div>
+}
+
+@if (Model.Items.Count == 0)
+{
+    <div class="card shadow-soft p-4">
+        <div class="text-muted">У вас ще немає бронювань.</div>
+        <div class="mt-2">
+            <a class="btn btn-dark" asp-page="/Hotels/Index">Перейти до пошуку номерів</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card shadow-soft p-3">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr class="text-muted small">
+                        <th>Готель</th>
+                        <th>Місто</th>
+                        <th>Дати</th>
+                        <th>Місць</th>
+                        <th>Ціна</th>
+                        <th>Створено</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var b in Model.Items)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@b.HotelName</td>
+                            <td>@b.City</td>
+                            <td>
+                                <div><b>@b.CheckIn.ToString("dd.MM.yyyy")</b> → <b>@b.CheckOut.ToString("dd.MM.yyyy")</b></div>
+                            </td>
+                            <td>@b.Capacity</td>
+                            <td>@b.PricePerNight.ToString("0.##") ₴/ніч</td>
+                            <td class="text-muted">@b.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
