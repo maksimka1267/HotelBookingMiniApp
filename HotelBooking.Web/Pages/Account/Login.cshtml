@@ -1,0 +1,67 @@
+﻿@page
+@model HotelBooking.Web.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Вхід / Реєстрація";
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-7 col-lg-5">
+
+        <div class="mb-3">
+            <h2 class="page-title mb-1">Вхід / Реєстрація</h2>
+            <div class="page-subtitle">Увійдіть або створіть обліковий запис, щоб бронювати номери.</div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Error))
+        {
+            <div class="alert alert-danger shadow-soft" role="alert">
+                <b>Помилка:</b> @Model.Error
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.Success))
+        {
+            <div class="alert alert-success shadow-soft" role="alert">
+                @Model.Success
+            </div>
+        }
+
+        <div class="card shadow-soft p-3 p-md-4">
+            <div class="d-flex gap-2 mb-3">
+                <a class="btn @(Model.ActiveTab == "login" ? "btn-dark" : "btn-outline-dark")"
+                   href="@Url.Page("/Account/Login", null, new { tab = "login", ReturnUrl = Model.ReturnUrl }, null)">
+                    Вхід
+                </a>
+                <a class="btn @(Model.ActiveTab == "register" ? "btn-dark" : "btn-outline-dark")"
+                   href="@Url.Page("/Account/Login", null, new { tab = "register", ReturnUrl = Model.ReturnUrl }, null)">
+                    Реєстрація
+                </a>
+            </div>
+
+            <form method="post">
+                <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+                <input type="hidden" name="handler" value="@(Model.ActiveTab == "register" ? "register" : "login")" />
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input class="form-control" asp-for="Email" type="email" placeholder="name@example.com" required />
+                    <span class="text-danger small" asp-validation-for="Email"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Пароль</label>
+                    <input class="form-control" asp-for="Password" type="password" placeholder="••••••••" required />
+                    <span class="text-danger small" asp-validation-for="Password"></span>
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100">
+                    @(Model.ActiveTab == "register" ? "Зареєструватись" : "Увійти")
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

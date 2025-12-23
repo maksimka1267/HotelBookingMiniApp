@@ -1,0 +1,68 @@
+﻿@page "{id?}"
+@model HotelBooking.Web.Pages.Admin.Hotels.UpsertModel
+@{
+    ViewData["Title"] = Model.IsEdit ? "Адмін · Редагувати готель" : "Адмін · Додати готель";
+}
+
+<div class="mb-3">
+    <h2 class="page-title mb-1">@ViewData["Title"]</h2>
+    <div class="page-subtitle">
+        @(Model.IsEdit ? "Оновіть дані готелю." : "Створіть новий готель.")
+    </div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Error))
+{
+    <div class="alert alert-danger shadow-soft" role="alert">
+        <b>Помилка:</b> @Model.Error
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.Success))
+{
+    <div class="alert alert-success shadow-soft" role="alert">
+        @Model.Success
+    </div>
+}
+
+<div class="card shadow-soft p-3 p-md-4">
+    <form method="post">
+        <input type="hidden" name="handler" value="save" />
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Назва</label>
+            <input class="form-control" asp-for="Name" placeholder="Напр. Premier Palace" />
+            <span class="text-danger small" asp-validation-for="Name"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Місто</label>
+            <input class="form-control" asp-for="City" placeholder="Напр. Київ" />
+            <span class="text-danger small" asp-validation-for="City"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Адреса</label>
+            <input class="form-control" asp-for="Address" placeholder="Вулиця, будинок" />
+            <span class="text-danger small" asp-validation-for="Address"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Опис (необов’язково)</label>
+            <textarea class="form-control" asp-for="Description" rows="4"
+                      placeholder="Короткий опис готелю..."></textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-dark">
+                @(Model.IsEdit ? "Зберегти" : "Створити")
+            </button>
+            <a class="btn btn-outline-dark" asp-page="/Admin/Hotels/Index">Назад</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

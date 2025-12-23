@@ -1,0 +1,66 @@
+﻿@page
+@model HotelBooking.Web.Pages.Admin.Hotels.IndexModel
+@{
+    ViewData["Title"] = "Адмін · Готелі";
+}
+
+<div class="d-flex justify-content-between align-items-end mb-3">
+    <div>
+        <h2 class="page-title mb-1">Готелі</h2>
+        <div class="page-subtitle">CRUD для готелів.</div>
+    </div>
+    <a class="btn btn-dark" asp-page="/Admin/Hotels/Upsert">+ Додати готель</a>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Error))
+{
+    <div class="alert alert-danger shadow-soft" role="alert">
+        <b>Помилка:</b> @Model.Error
+    </div>
+}
+
+<div class="card shadow-soft p-3">
+    @if (Model.Items.Count == 0)
+    {
+        <div class="text-muted">Готелів ще немає.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr class="text-muted small">
+                        <th>Назва</th>
+                        <th>Місто</th>
+                        <th>Адреса</th>
+                        <th style="width:220px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model.Items)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@h.Name</td>
+                            <td>@h.City</td>
+                            <td class="text-muted">@h.Address</td>
+                            <td class="text-end">
+                                <a class="btn btn-outline-dark btn-sm"
+                                   asp-page="/Admin/Hotels/Upsert"
+                                   asp-route-id="@h.Id">Редагувати</a>
+
+                                <form method="post" class="d-inline">
+                                    <input type="hidden" name="handler" value="delete" />
+                                    <input type="hidden" name="Id" value="@h.Id" />
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                            onclick="return confirm('Видалити готель «@h.Name»?');">
+                                        Видалити
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

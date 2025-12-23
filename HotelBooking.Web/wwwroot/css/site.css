@@ -1,0 +1,73 @@
+:root {
+    --hb-bg: #f6f7fb;
+    --hb-card: #ffffff;
+    --hb-text: #111827;
+    --hb-muted: #6b7280;
+    --hb-border: rgba(17, 24, 39, 0.08);
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: var(--hb-bg);
+    color: var(--hb-text);
+}
+
+.brand-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #111827;
+    border-radius: 999px;
+    margin-right: 10px;
+    position: relative;
+    top: -1px;
+}
+
+.navbar {
+    backdrop-filter: blur(8px);
+}
+
+.container {
+    max-width: 1060px;
+}
+
+.card,
+.shadow-soft {
+    background: var(--hb-card);
+    border: 1px solid var(--hb-border);
+    border-radius: 14px;
+}
+
+.shadow-soft {
+    box-shadow: 0 12px 30px rgba(17, 24, 39, 0.06);
+}
+
+.btn, .form-control, .form-select {
+    border-radius: 12px;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 0 0.2rem rgba(17, 24, 39, 0.12);
+        border-color: rgba(17, 24, 39, 0.25);
+    }
+
+.table {
+    border-color: var(--hb-border);
+}
+
+.text-muted {
+    color: var(--hb-muted) !important;
+}
+
+.page-title {
+    font-weight: 650;
+    letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+    color: var(--hb-muted);
+}
